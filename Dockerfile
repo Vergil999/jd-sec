@@ -5,6 +5,7 @@ ENV CGO_ENABLED=0
 ARG ITEMID
 ARG EMAIL
 ARG SECTIME
+RUN echo '$ITEMID'
 
 RUN apk update && apk add ca-certificates \
     && apk add tzdata \
@@ -16,4 +17,4 @@ RUN apk update && apk add ca-certificates \
 WORKDIR $GOPATH/src/jd-sec
 ADD . ./
 RUN go build -o jdsec -a -installsuffix cgo .
-ENTRYPOINT  ["./jdsec","-itemId","$ITEMID","-email","$EMAIL","-secTime","$SECTIME"]
+ENTRYPOINT  ["./jdsec","-itemId","${ITEMID}","-email","${EMAIL}","-secTime","${SECTIME}"]
