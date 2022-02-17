@@ -25,13 +25,15 @@ var itemId string
 var email string
 var secTime string
 
-func main() {
+func init() {
 	flag.StringVar(&itemId, "itemId", configs.Config.ItemId, "商品ID")
 	flag.StringVar(&email, "email", configs.Config.Email, "接收登陆二维码邮箱")
 	flag.StringVar(&secTime, "secTime", configs.Config.SecTime, "抢购时间")
-
 	flag.Parse()
-	logger.Infof("itemId:%v,mail:%v,secTime:%v", itemId, email, secTime)
+}
+
+func main() {
+	logger.Infof("商品ID:%v,接收二维码邮箱:%v,抢购时间:%v", itemId, email, secTime)
 	//等待秒杀开始前一分钟
 	sec, _ := time.ParseInLocation("2006-1-2 15:04:05", secTime, time.Local)
 	secUnix := sec.Unix()
