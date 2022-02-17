@@ -6,9 +6,9 @@ import (
 )
 
 type GlobalConfig struct {
-	Item  string
-	Time  string
-	Email string
+	ItemId  string
+	SecTime string
+	Email   string
 }
 
 var Config GlobalConfig

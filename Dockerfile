@@ -1,5 +1,4 @@
 FROM golang:1.13-alpine
-MAINTAINER lyq7845@126.com
 
 ENV GOPROXY="https://goproxy.cn"
 ENV CGO_ENABLED=0

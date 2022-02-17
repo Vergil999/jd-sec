@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -19,12 +20,18 @@ import (
 )
 
 var ticket string
-var itemId = configs.Config.Item
-var userEmail = configs.Config.Email
-var secTime = configs.Config.Time
+
+var itemId string
+var email string
+var secTime string
 
 func main() {
-	logger.Infof("itemId:%v,mail:%v,secTime:%v", itemId, userEmail, secTime)
+	flag.StringVar(&itemId, "itemId", configs.Config.ItemId, "商品ID")
+	flag.StringVar(&email, "email", configs.Config.Email, "接收登陆二维码邮箱")
+	flag.StringVar(&secTime, "secTime", configs.Config.SecTime, "抢购时间")
+
+	flag.Parse()
+	logger.Infof("itemId:%v,mail:%v,secTime:%v", itemId, email, secTime)
 	//等待秒杀开始前一分钟
 	sec, _ := time.ParseInLocation("2006-1-2 15:04:05", secTime, time.Local)
 	secUnix := sec.Unix()
@@ -48,7 +55,7 @@ func main() {
 	}
 	logger.Infof("获取到的token:%s", token)
 	//发送登陆二维码到邮箱
-	mail.SendEmail(userEmail)
+	mail.SendEmail(email)
 
 	headerMap := checkLogin(token, cookies)
 	logger.Infof("确认抢购是否已开始...")
