@@ -14,4 +14,4 @@ RUN apk update && apk add ca-certificates \
 WORKDIR $GOPATH/src/jd-sec
 ADD . ./
 RUN go build -o jdsec -a -installsuffix cgo .
-ENTRYPOINT ["./jdsec"]
+ENTRYPOINT ["./start.sh"]
