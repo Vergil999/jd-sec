@@ -129,7 +129,7 @@ func secKilTask(cookies []*http.Cookie, headerMap map[string]string) {
 		if success {
 			return
 		}
-		time.Sleep(time.Millisecond * 200)
+		time.Sleep(time.Millisecond * 300)
 	}
 }
 
@@ -174,19 +174,17 @@ func addItemToCart(headerMap map[string]string, cookies []*http.Cookie) {
 		logger.Errorf("加入购物车失败,error:%s", err.Error())
 		return
 	}
-	//respStr, err := ioutil.ReadAll(resp.Body)
-	//logger.Infof("加入购物车返回结果:%v", string(respStr))
 }
 
-func addItemToCartCallback(headerMap map[string]string, cookies []*http.Cookie) {
-	cartUrl := fmt.Sprintf("https://cart.jd.com/gateResult?rcd=1&pid=%v&pc=1&eb=1&rid=%v&em=", itemId, time.Now().Unix())
-	headerMap["Referer"] = "https://item.jd.com/"
-	_, err := http_client.Exec("GET", cartUrl, headerMap, cookies)
-	if err != nil {
-		logger.Errorf("加入购物车失败,error:%s", err.Error())
-		return
-	}
-}
+//func addItemToCartCallback(headerMap map[string]string, cookies []*http.Cookie) {
+//	cartUrl := fmt.Sprintf("https://cart.jd.com/gateResult?rcd=1&pid=%v&pc=1&eb=1&rid=%v&em=", itemId, time.Now().Unix())
+//	headerMap["Referer"] = "https://item.jd.com/"
+//	_, err := http_client.Exec("GET", cartUrl, headerMap, cookies)
+//	if err != nil {
+//		logger.Errorf("加入购物车失败,error:%s", err.Error())
+//		return
+//	}
+//}
 
 /**
 结算
@@ -203,8 +201,6 @@ func getOrderInfo(cookies []*http.Cookie) {
 		logger.Errorf("结算失败,error:%s", err.Error())
 		return
 	}
-	//strData := string(bytes)
-	//logger.Infof("结算返回结果:%v", strData)
 }
 
 func submitOrder(cookies []*http.Cookie) bool {
@@ -220,7 +216,6 @@ func submitOrder(cookies []*http.Cookie) bool {
 		logger.Errorf("下单失败,error:%s", err.Error())
 		return false
 	}
-	//"success":true,
 	returnData := string(data)
 	if strings.Contains(returnData, "\"success\":true") {
 		logger.Infof("下单成功:%s", returnData)
