@@ -15,6 +15,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -23,19 +24,28 @@ var ticket string
 
 var itemId string
 var email string
-var secTime string
+var secTimeStr string
 
 func init() {
 	flag.StringVar(&itemId, "itemId", configs.Config.ItemId, "商品ID")
 	flag.StringVar(&email, "email", configs.Config.Email, "接收登陆二维码邮箱")
-	flag.StringVar(&secTime, "secTime", configs.Config.SecTime, "抢购时间")
+	flag.StringVar(&secTimeStr, "secTime", configs.Config.SecTime, "抢购时间")
 	flag.Parse()
 }
 
 func main() {
-	logger.Infof("商品ID:%v,接收二维码邮箱:%v,抢购时间:%v", itemId, email, secTime)
+	if len(secTimeStr) == 13{
+		secTimeStr = secTimeStr[0:10]
+	}
+	secTime, err := strconv.Atoi(secTimeStr)
+	if err != nil {
+		logger.Error("抢购时间参数错误")
+		os.Exit(0)
+	}
+	sec := time.Unix(int64(secTime), 0)
+	logger.Infof("商品ID:%v,接收二维码邮箱:%v,抢购时间:%v", itemId, email, sec.String())
+
 	//等待秒杀开始前一分钟
-	sec, _ := time.ParseInLocation("2006-1-2 15:04:05", secTime, time.Local)
 	secUnix := sec.Unix()
 	for {
 		t := secUnix - time.Now().Unix()
