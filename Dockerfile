@@ -12,6 +12,6 @@ RUN apk update && apk add ca-certificates \
     && rm -rf /var/cache/apk/*
 
 ADD . ./
-RUN go build -o jdsec .
+RUN go build -o jdsec -a -installsuffix cgo .
 RUN chmod 777 start.sh
 ENTRYPOINT ["sh","./start.sh"]
