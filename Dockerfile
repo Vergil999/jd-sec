@@ -11,7 +11,7 @@ ENV itemId=$ITEMID
 ENV email=$EMAIL
 ENV sectime=$SECTIME
 
-RUN echo '$ITEMID'
+RUN echo '$itemId'
 
 RUN apk update && apk add ca-certificates \
     && apk add tzdata \
