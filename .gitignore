@@ -27,5 +27,8 @@ website/build/
 website/npm-debug.log
 website/vendor
 
-
+.idea
+*.iws
+*.iml
+*.ipr
 *.png
